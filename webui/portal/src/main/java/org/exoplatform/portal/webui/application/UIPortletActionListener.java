@@ -253,6 +253,16 @@ public class UIPortletActionListener {
         }
     }
 
+    private static void clearMaximizedUIComponent(UIPage uiPage, UIPortlet uiPortlet) {
+        if(uiPage.getMaximizedUIPortlet() != null && uiPage.getMaximizedUIPortlet().getId().equals(uiPortlet.getId())) {
+            uiPage.setMaximizedUIPortlet(null);
+            UIPageBody pageBody = uiPage.getAncestorOfType(UIPageBody.class);
+            if (pageBody != null) {
+                pageBody.setMaximizedUIComponent(null);
+            }
+        }
+    }
+
     /**
      * This method is used to set the next portlet window state if this one needs to be modified because of the incoming request
      */
@@ -273,24 +283,12 @@ public class UIPortletActionListener {
             } else if (WindowState.MINIMIZED.equals(state)) {
                 uiPortlet.setCurrentWindowState(WindowState.MINIMIZED);
                 if (uiPage != null) {
-                    if(uiPage.getMaximizedUIPortlet() != null && uiPage.getMaximizedUIPortlet().getId().equals(uiPortlet.getId())) {
-                        uiPage.setMaximizedUIPortlet(null);
-                        UIPageBody pageBody = uiPage.getAncestorOfType(UIPageBody.class);
-                        if (pageBody != null) {
-                            pageBody.setMaximizedUIComponent(null);
-                        }
-                    }
+                    clearMaximizedUIComponent(uiPage, uiPortlet);
                 }
             } else {
                 uiPortlet.setCurrentWindowState(WindowState.NORMAL);
                 if (uiPage != null) {
-                    if(uiPage.getMaximizedUIPortlet() != null && uiPage.getMaximizedUIPortlet().getId().equals(uiPortlet.getId())) {
-                        uiPage.setMaximizedUIPortlet(null);
-                        UIPageBody pageBody = uiPage.getAncestorOfType(UIPageBody.class);
-                        if (pageBody != null) {
-                            pageBody.setMaximizedUIComponent(null);
-                        }
-                    }
+                    clearMaximizedUIComponent(uiPage, uiPortlet);
                 }
             }
         }

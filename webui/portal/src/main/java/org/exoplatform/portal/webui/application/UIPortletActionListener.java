@@ -756,6 +756,9 @@ public class UIPortletActionListener {
             // -----------------------------------------------------------------
             if (windowState.equals(WindowState.MINIMIZED.toString())) {
                 uiPortlet.setCurrentWindowState(WindowState.MINIMIZED);
+                if(uiPage.getMaximizedUIPortlet() == uiPortlet) {
+                    uiPage.setMaximizedUIPortlet(null);
+                }
                 return;
             }
             uiPortlet.setCurrentWindowState(WindowState.NORMAL);
